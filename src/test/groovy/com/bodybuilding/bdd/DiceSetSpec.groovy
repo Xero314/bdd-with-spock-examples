@@ -1,19 +1,29 @@
 package com.bodybuilding.bdd
 
 import spock.lang.Specification
+import spock.lang.Subject
 
 import java.util.function.Consumer
 
 
 class DiceSetSpec extends Specification {
 
-    def "Dice set rolls should notify the supplied callback"()
+    @Subject
+    private DiceSet diceset
+
+    //Collaborators
+    private Consumer<Long> callback
+
+    def setup()
     {
         given: "a callback"
-        Consumer<Long> callback = Mock()
+        callback = Mock()
+    }
 
-        and: "a set of dice"
-        DiceSet diceset = new DiceSet(callback, new Die(6))
+    def "Dice set rolls should notify the supplied callback"()
+    {
+        given: "a set of dice"
+        diceset = new DiceSet(callback, new Die(6))
 
         when: "dice are rolled"
         diceset.roll()
