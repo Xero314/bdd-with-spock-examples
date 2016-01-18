@@ -21,25 +21,24 @@ class DiceSetSpec extends Specification {
         callback = Mock()
     }
 
-    @Unroll("#featureName where rolls are [#one, #two, #three] and expected value is #expected")
-    def "Rolling a Dice Set should result in the sum of the generated values of the dice it contains"(long one, long two, long three, long expected)
+    @Unroll("#featureName where rolls are #rolls")
+    def "Rolling a Dice Set should result in the sum of the generated values of the dice it contains"(List<Long> rolls)
     {
         given: "a set of dice"
         Die die = Mock()
-        diceset = new DiceSet(callback, die, die, die);
+        diceset = new DiceSet(callback,[die]*rolls.size() as Die[]);
 
         when: "dice are rolled"
         def result = diceset.roll()
 
         then: "dice in set are rolled"
-        3 * die.roll() >>> [one,two,three]
+        rolls.size() * die.roll() >>> rolls
 
         and: "rolled result is sum of result of dice in set"
-        result == expected
+        result == rolls.sum()
 
         where:
-        [one, two, three] << [[1,2,3],[10,100,1000]]
-        expected = [one,two,three].sum()
+        rolls << [10,100,1000].permutations()
     }
 
     def "Dice set rolls should notify the supplied callback"()
