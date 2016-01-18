@@ -23,16 +23,17 @@ class DiceSetSpec extends Specification {
     def "Rolling a Dice Set should result in the sum of the generated values of the dice it contains"()
     {
         given: "a set of dice"
-        Die die = Stub()
-        die.roll() >> 11
-        diceset = new DiceSet(callback,die);
+        Die die = Mock()
+        diceset = new DiceSet(callback, die, die, die);
 
         when: "dice are rolled"
         def result = diceset.roll()
 
-        then: "rolled result is sum of result of dice in set"
-        result == 11
+        then: "dice in set are rolled"
+        3 * die.roll() >>> [4,11,23]
 
+        and: "rolled result is sum of result of dice in set"
+        result == 38
     }
 
     def "Dice set rolls should notify the supplied callback"()
