@@ -26,6 +26,6 @@ public class Die implements Rollable
     @Override
     public long roll()
     {
-        return 0;
+        return ThreadLocalRandom.current().nextLong(1, facets);
     }
 }
