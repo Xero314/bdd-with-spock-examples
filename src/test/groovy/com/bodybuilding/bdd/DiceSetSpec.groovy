@@ -20,7 +20,7 @@ class DiceSetSpec extends Specification {
         callback = Mock()
     }
 
-    def "Rolling a Dice Set should result in the sum of the generated values of the dice it contains"()
+    def "Rolling a Dice Set should result in the sum of the generated values of the dice it contains"(long one, long two, long three, long expected)
     {
         given: "a set of dice"
         Die die = Mock()
@@ -30,10 +30,15 @@ class DiceSetSpec extends Specification {
         def result = diceset.roll()
 
         then: "dice in set are rolled"
-        3 * die.roll() >>> [4,11,23]
+        3 * die.roll() >>> [one,two,three]
 
         and: "rolled result is sum of result of dice in set"
-        result == 38
+        result == expected
+
+        where:
+        one |   two |   three   ||   expected
+        1   |   2   |   3       ||   6
+        10  |   100 |  1000     ||   1110
     }
 
     def "Dice set rolls should notify the supplied callback"()
