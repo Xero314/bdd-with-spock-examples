@@ -38,19 +38,25 @@ class DiceSetSpec extends Specification {
         result == rolls.sum()
 
         where:
-        rolls << [10,100,1000].permutations()
+        rolls << collect{(1..(new Die(1000).roll())).collect{new Die(Long.MAX_VALUE).roll()}}
     }
 
-    def "Dice set rolls should notify the supplied callback"()
+    @Unroll("#featureName where roll is #roll")
+    def "Dice set rolls should notify the supplied callback"(long roll)
     {
         given: "a set of dice"
-        diceset = new DiceSet(callback, new Die(6))
+        Die die = Mock()
+        1 * die.roll() >> roll
+        diceset = new DiceSet(callback, die)
 
         when: "dice are rolled"
         diceset.roll()
 
         then: "callback function is executed with rolled result"
-        1 * callback.accept(_)
+        1 * callback.accept(roll)
+
+        where:
+        roll << new Die(Long.MAX_VALUE).roll()
 
     }
 }

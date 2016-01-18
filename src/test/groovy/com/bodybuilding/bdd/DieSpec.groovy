@@ -1,12 +1,20 @@
 package com.bodybuilding.bdd
 
 import spock.lang.Specification
+import spock.lang.Subject
+import spock.lang.Unroll
+
 
 class DieSpec extends Specification {
-    def "Rolling a Die should produce a random number no less than 1 and no greater than the number of facets of the die" ()
+
+    @Subject
+    private Die die;
+
+    @Unroll("#featureName where number of facets is #facets")
+    def "Rolling a Die should produce a random number no less than 1 and no greater than the number of facets of the die" (long facets)
     {
         given: "a die"
-        Die die = new Die(6)
+        die = new Die(facets)
 
         when: "die is rolled"
         def result = die.roll()
@@ -15,7 +23,10 @@ class DieSpec extends Specification {
         result >= 1
 
         and: "result is less than or equal to number of facets on the die"
-        result <= 6
+        result <= facets
 
+        where:
+        facets << (2..100).findAll{it % 2 == 0}
     }
+
 }
