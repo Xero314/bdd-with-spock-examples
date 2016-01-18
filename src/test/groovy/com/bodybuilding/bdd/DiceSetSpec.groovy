@@ -20,6 +20,21 @@ class DiceSetSpec extends Specification {
         callback = Mock()
     }
 
+    def "Rolling a Dice Set should result in the sum of the generated values of the dice it contains"()
+    {
+        given: "a set of dice"
+        Die die = Stub()
+        die.roll() >> 11
+        diceset = new DiceSet(callback,die);
+
+        when: "dice are rolled"
+        def result = diceset.roll()
+
+        then: "rolled result is sum of result of dice in set"
+        result == 11
+
+    }
+
     def "Dice set rolls should notify the supplied callback"()
     {
         given: "a set of dice"
