@@ -2,6 +2,7 @@ package com.bodybuilding.bdd
 
 import spock.lang.Specification
 import spock.lang.Subject
+import spock.lang.Unroll
 
 import java.util.function.Consumer
 
@@ -20,6 +21,7 @@ class DiceSetSpec extends Specification {
         callback = Mock()
     }
 
+    @Unroll("#featureName where rolls are [#one, #two, #three] and expected value is #expected")
     def "Rolling a Dice Set should result in the sum of the generated values of the dice it contains"(long one, long two, long three, long expected)
     {
         given: "a set of dice"
