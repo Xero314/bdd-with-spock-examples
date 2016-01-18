@@ -38,9 +38,8 @@ class DiceSetSpec extends Specification {
         result == expected
 
         where:
-        one |   two |   three   ||   expected
-        1   |   2   |   3       ||   6
-        10  |   100 |  1000     ||   1110
+        [one, two, three] << [[1,2,3],[10,100,1000]]
+        expected = [one,two,three].sum()
     }
 
     def "Dice set rolls should notify the supplied callback"()
