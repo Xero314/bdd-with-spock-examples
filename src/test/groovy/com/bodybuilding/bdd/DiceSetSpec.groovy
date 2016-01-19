@@ -38,7 +38,7 @@ class DiceSetSpec extends Specification {
         result == rolls.sum()
 
         where:
-        rolls << collect{(1..(new Die(1000).roll())).collect{new Die(Long.MAX_VALUE).roll()}}
+        rolls << (1..10).collect{(1..(new Die(1000).roll())).collect{new Die(Long.MAX_VALUE).roll()}}
     }
 
     @Unroll("#featureName where roll is #roll")
@@ -56,7 +56,7 @@ class DiceSetSpec extends Specification {
         1 * callback.accept(roll)
 
         where:
-        roll << new Die(Long.MAX_VALUE).roll()
+        roll << (1..10).collect{new Die(Long.MAX_VALUE).roll()}
 
     }
 }
