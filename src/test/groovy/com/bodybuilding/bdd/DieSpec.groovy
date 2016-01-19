@@ -1,5 +1,6 @@
 package com.bodybuilding.bdd
 
+import spock.genesis.Gen
 import spock.lang.Specification
 import spock.lang.Subject
 import spock.lang.Unroll
@@ -26,7 +27,7 @@ class DieSpec extends Specification {
         result <= facets
 
         where:
-        facets << (2..100).findAll{it % 2 == 0}
+        facets << Gen.integer(1, Integer.MAX_VALUE)  * 10
     }
 
 }

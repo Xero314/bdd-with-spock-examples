@@ -1,5 +1,6 @@
 package com.bodybuilding.bdd
 
+import spock.genesis.Gen
 import spock.lang.Specification
 import spock.lang.Subject
 import spock.lang.Unroll
@@ -38,7 +39,7 @@ class DiceSetSpec extends Specification {
         result == rolls.sum()
 
         where:
-        rolls << (1..10).collect{(1..(new Die(1000).roll())).collect{new Die(Long.MAX_VALUE).roll()}}
+        rolls << Gen.integer(1, 100).map{ (Gen.integer(1, Integer.MAX_VALUE/it as Integer) * it).collect()} * 10
     }
 
     @Unroll("#featureName where roll is #roll")
@@ -56,7 +57,7 @@ class DiceSetSpec extends Specification {
         1 * callback.accept(roll)
 
         where:
-        roll << (1..10).collect{new Die(Long.MAX_VALUE).roll()}
+        roll << Gen.integer(1, Integer.MAX_VALUE)  * 10
 
     }
 }
